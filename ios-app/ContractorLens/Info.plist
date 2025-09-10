@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.contractorlens.ios</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>contractorlens</string>
+			</array>
+		</dict>
+	</array>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<false/>
+	</dict>
+	<key>UIFileSharingEnabled</key>
+	<false/>
+	<key>UILaunchScreen</key>
+	<dict/>
+	<key>NSCameraUsageDescription</key>
+	<string>ContractorLens needs camera access to scan rooms and capture measurements for cost estimation.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>ContractorLens uses your location to provide accurate regional pricing for construction estimates.</string>
+	<key>ARKit</key>
+	<dict>
+		<key>ARKitUsageDescription</key>
+		<string>ContractorLens uses AR to accurately measure rooms and surfaces for construction cost estimation.</string>
+		<key>ARWorldTrackingConfiguration</key>
+		<dict>
+			<key>Description</key>
+			<string>Used for room scanning and measurement</string>
+		</dict>
+	</dict>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>arkit</string>
+	</array>
+</dict>
+</plist>

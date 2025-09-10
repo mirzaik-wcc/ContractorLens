@@ -1,0 +1,515 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1D0D2C6C2E6BB914006EF06D /* View+ContractorLensStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0D2C692E6BB914006EF06D /* View+ContractorLensStyle.swift */; };
+		1D0D2C6E2E6BB943006EF06D /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0D2C6D2E6BB943006EF06D /* Theme.swift */; };
+		1D0D2C752E6E9902006EF06D /* ItemCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0D2C732E6E9902006EF06D /* ItemCategory.swift */; };
+		1D0D2C762E6E9902006EF06D /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0D2C742E6E9902006EF06D /* UserPreferences.swift */; };
+		1D548C4B2E6BA7DC00FBE3BA /* RoomScanResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D548C4A2E6BA7DC00FBE3BA /* RoomScanResult.swift */; };
+		1D548C4C2E6BA7DC00FBE3BA /* EstimateResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D548C492E6BA7DC00FBE3BA /* EstimateResponse.swift */; };
+		A1000001294A0001005F0001 /* ContractorLensApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000294A0001005F0001 /* ContractorLensApp.swift */; };
+		A1000003294A0001005F0001 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000002294A0001005F0001 /* ContentView.swift */; };
+		A1000005294A0003005F0001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1000004294A0003005F0001 /* Assets.xcassets */; };
+		A1000008294A0003005F0001 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1000007294A0003005F0001 /* Preview Assets.xcassets */; };
+		A1000010294A0010005F0001 /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100000F294A0010005F0001 /* Room.swift */; };
+		A1000012294A0011005F0001 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000011294A0011005F0001 /* Measurement.swift */; };
+		A1000014294A0012005F0001 /* Assembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000013294A0012005F0001 /* Assembly.swift */; };
+		A1000016294A0013005F0001 /* Surface.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000015294A0013005F0001 /* Surface.swift */; };
+		A1000018294A0014005F0001 /* ScanningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000017294A0014005F0001 /* ScanningView.swift */; };
+		A100001A294A0015005F0001 /* ResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000019294A0015005F0001 /* ResultsView.swift */; };
+		A100001C294A0016005F0001 /* ScanningViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100001B294A0016005F0001 /* ScanningViewModel.swift */; };
+		A100001E294A0017005F0001 /* AssemblyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100001D294A0017005F0001 /* AssemblyViewModel.swift */; };
+		A1000020294A0018005F0001 /* ARService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100001F294A0018005F0001 /* ARService.swift */; };
+		A1000022294A0019005F0001 /* AssemblyEngineService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000021294A0019005F0001 /* AssemblyEngineService.swift */; };
+		A1000024294A001A005F0001 /* RoomScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000023294A001A005F0001 /* RoomScanner.swift */; };
+		A1000026294A001B005F0001 /* ARCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000025294A001B005F0001 /* ARCoordinator.swift */; };
+		A1000028294A001C005F0001 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000027294A001C005F0001 /* Extensions.swift */; };
+		A100002A294A001E005F0001 /* ScanningService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000029294A001E005F0001 /* ScanningService.swift */; };
+		A100002C294A001F005F0001 /* EstimateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100002B294A001F005F0001 /* EstimateViewModel.swift */; };
+		A100002E294A0020005F0001 /* EstimateResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A100002D294A0020005F0001 /* EstimateResultsView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1D0D2C692E6BB914006EF06D /* View+ContractorLensStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ContractorLensStyle.swift"; sourceTree = "<group>"; };
+		1D0D2C6D2E6BB943006EF06D /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		1D0D2C732E6E9902006EF06D /* ItemCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCategory.swift; sourceTree = "<group>"; };
+		1D0D2C742E6E9902006EF06D /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
+		1D548C492E6BA7DC00FBE3BA /* EstimateResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EstimateResponse.swift; sourceTree = "<group>"; };
+		1D548C4A2E6BA7DC00FBE3BA /* RoomScanResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomScanResult.swift; sourceTree = "<group>"; };
+		A0FFFFFD294A0001005F0001 /* ContractorLens.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ContractorLens.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1000000294A0001005F0001 /* ContractorLensApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractorLensApp.swift; sourceTree = "<group>"; };
+		A1000002294A0001005F0001 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		A1000004294A0003005F0001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A1000007294A0003005F0001 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		A100000F294A0010005F0001 /* Room.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
+		A1000011294A0011005F0001 /* Measurement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Measurement.swift; sourceTree = "<group>"; };
+		A1000013294A0012005F0001 /* Assembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembly.swift; sourceTree = "<group>"; };
+		A1000015294A0013005F0001 /* Surface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Surface.swift; sourceTree = "<group>"; };
+		A1000017294A0014005F0001 /* ScanningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanningView.swift; sourceTree = "<group>"; };
+		A1000019294A0015005F0001 /* ResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsView.swift; sourceTree = "<group>"; };
+		A100001B294A0016005F0001 /* ScanningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanningViewModel.swift; sourceTree = "<group>"; };
+		A100001D294A0017005F0001 /* AssemblyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssemblyViewModel.swift; sourceTree = "<group>"; };
+		A100001F294A0018005F0001 /* ARService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARService.swift; sourceTree = "<group>"; };
+		A1000021294A0019005F0001 /* AssemblyEngineService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssemblyEngineService.swift; sourceTree = "<group>"; };
+		A1000023294A001A005F0001 /* RoomScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomScanner.swift; sourceTree = "<group>"; };
+		A1000025294A001B005F0001 /* ARCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARCoordinator.swift; sourceTree = "<group>"; };
+		A1000027294A001C005F0001 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		A1000029294A001E005F0001 /* ScanningService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanningService.swift; sourceTree = "<group>"; };
+		A100002B294A001F005F0001 /* EstimateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EstimateViewModel.swift; sourceTree = "<group>"; };
+		A100002D294A0020005F0001 /* EstimateResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EstimateResultsView.swift; sourceTree = "<group>"; };
+		A1000030294A001D005F0001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A0FFFFFA294A0001005F0001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A0FFFFF4294A0001005F0001 = {
+			isa = PBXGroup;
+			children = (
+				A0FFFFFF294A0001005F0001 /* ContractorLens */,
+				A0FFFFFE294A0001005F0001 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A0FFFFFE294A0001005F0001 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A0FFFFFD294A0001005F0001 /* ContractorLens.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A0FFFFFF294A0001005F0001 /* ContractorLens */ = {
+			isa = PBXGroup;
+			children = (
+				A1000030294A001D005F0001 /* Info.plist */,
+				A1000000294A0001005F0001 /* ContractorLensApp.swift */,
+				A100000E294A000F005F0001 /* Models */,
+				A1000009294A0009005F0001 /* Views */,
+				A100000A294A000A005F0001 /* ViewModels */,
+				A100000B294A000B005F0001 /* Services */,
+				A100000C294A000C005F0001 /* AR */,
+				A100000D294A000D005F0001 /* Utils */,
+				A1000004294A0003005F0001 /* Assets.xcassets */,
+				A1000006294A0003005F0001 /* Preview Content */,
+			);
+			path = ContractorLens;
+			sourceTree = "<group>";
+		};
+		A1000006294A0003005F0001 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				A1000007294A0003005F0001 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		A1000009294A0009005F0001 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A1000002294A0001005F0001 /* ContentView.swift */,
+				A1000017294A0014005F0001 /* ScanningView.swift */,
+				A1000019294A0015005F0001 /* ResultsView.swift */,
+				A100002D294A0020005F0001 /* EstimateResultsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A100000A294A000A005F0001 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				A100001B294A0016005F0001 /* ScanningViewModel.swift */,
+				A100001D294A0017005F0001 /* AssemblyViewModel.swift */,
+				A100002B294A001F005F0001 /* EstimateViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		A100000B294A000B005F0001 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				A100001F294A0018005F0001 /* ARService.swift */,
+				A1000021294A0019005F0001 /* AssemblyEngineService.swift */,
+				A1000029294A001E005F0001 /* ScanningService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		A100000C294A000C005F0001 /* AR */ = {
+			isa = PBXGroup;
+			children = (
+				A1000023294A001A005F0001 /* RoomScanner.swift */,
+				A1000025294A001B005F0001 /* ARCoordinator.swift */,
+			);
+			path = AR;
+			sourceTree = "<group>";
+		};
+		A100000D294A000D005F0001 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				1D0D2C6D2E6BB943006EF06D /* Theme.swift */,
+				1D0D2C692E6BB914006EF06D /* View+ContractorLensStyle.swift */,
+				A1000027294A001C005F0001 /* Extensions.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		A100000E294A000F005F0001 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1D0D2C732E6E9902006EF06D /* ItemCategory.swift */,
+				1D0D2C742E6E9902006EF06D /* UserPreferences.swift */,
+				1D548C492E6BA7DC00FBE3BA /* EstimateResponse.swift */,
+				1D548C4A2E6BA7DC00FBE3BA /* RoomScanResult.swift */,
+				A100000F294A0010005F0001 /* Room.swift */,
+				A1000011294A0011005F0001 /* Measurement.swift */,
+				A1000013294A0012005F0001 /* Assembly.swift */,
+				A1000015294A0013005F0001 /* Surface.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A0FFFFFC294A0001005F0001 /* ContractorLens */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A100000B294A0003005F0001 /* Build configuration list for PBXNativeTarget "ContractorLens" */;
+			buildPhases = (
+				A0FFFFF9294A0001005F0001 /* Sources */,
+				A0FFFFFA294A0001005F0001 /* Frameworks */,
+				A0FFFFFB294A0001005F0001 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ContractorLens;
+			productName = ContractorLens;
+			productReference = A0FFFFFD294A0001005F0001 /* ContractorLens.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A0FFFFF5294A0001005F0001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1640;
+				TargetAttributes = {
+					A0FFFFFC294A0001005F0001 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = A0FFFFF8294A0001005F0001 /* Build configuration list for PBXProject "ContractorLens" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A0FFFFF4294A0001005F0001;
+			productRefGroup = A0FFFFFE294A0001005F0001 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A0FFFFFC294A0001005F0001 /* ContractorLens */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A0FFFFFB294A0001005F0001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1000008294A0003005F0001 /* Preview Assets.xcassets in Resources */,
+				A1000005294A0003005F0001 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A0FFFFF9294A0001005F0001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D0D2C6C2E6BB914006EF06D /* View+ContractorLensStyle.swift in Sources */,
+				A1000010294A0010005F0001 /* Room.swift in Sources */,
+				A1000012294A0011005F0001 /* Measurement.swift in Sources */,
+				A1000014294A0012005F0001 /* Assembly.swift in Sources */,
+				A1000016294A0013005F0001 /* Surface.swift in Sources */,
+				A1000003294A0001005F0001 /* ContentView.swift in Sources */,
+				A1000018294A0014005F0001 /* ScanningView.swift in Sources */,
+				1D0D2C6E2E6BB943006EF06D /* Theme.swift in Sources */,
+				A100001A294A0015005F0001 /* ResultsView.swift in Sources */,
+				A100001C294A0016005F0001 /* ScanningViewModel.swift in Sources */,
+				A100001E294A0017005F0001 /* AssemblyViewModel.swift in Sources */,
+				A1000020294A0018005F0001 /* ARService.swift in Sources */,
+				A1000022294A0019005F0001 /* AssemblyEngineService.swift in Sources */,
+				A1000024294A001A005F0001 /* RoomScanner.swift in Sources */,
+				A1000026294A001B005F0001 /* ARCoordinator.swift in Sources */,
+				1D0D2C752E6E9902006EF06D /* ItemCategory.swift in Sources */,
+				1D0D2C762E6E9902006EF06D /* UserPreferences.swift in Sources */,
+				A1000028294A001C005F0001 /* Extensions.swift in Sources */,
+				A100002A294A001E005F0001 /* ScanningService.swift in Sources */,
+				A100002C294A001F005F0001 /* EstimateViewModel.swift in Sources */,
+				A100002E294A0020005F0001 /* EstimateResultsView.swift in Sources */,
+				A1000001294A0001005F0001 /* ContractorLensApp.swift in Sources */,
+				1D548C4B2E6BA7DC00FBE3BA /* RoomScanResult.swift in Sources */,
+				1D548C4C2E6BA7DC00FBE3BA /* EstimateResponse.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A1000009294A0003005F0001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = KWABMM6ND4;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A100000A294A0003005F0001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = KWABMM6ND4;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A100000C294A0003005F0001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ContractorLens/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ContractorLens/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ContractorLens;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
+				INFOPLIST_KEY_NSCameraUsageDescription = "ContractorLens uses the camera for AR room scanning to measure dimensions and identify materials for accurate construction estimates.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location helps provide accurate regional cost estimates and pricing modifiers for your area.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Save estimate reports and room scans to your photo library for easy sharing and record keeping.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Access your photo library to save estimate reports and room scan results for sharing and record keeping.";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = "arkit camera";
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportsDocumentBrowser = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bismillahtech.ContractorLens;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A100000D294A0003005F0001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ContractorLens/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ContractorLens/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ContractorLens;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
+				INFOPLIST_KEY_NSCameraUsageDescription = "ContractorLens uses the camera for AR room scanning to measure dimensions and identify materials for accurate construction estimates.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location helps provide accurate regional cost estimates and pricing modifiers for your area.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Save estimate reports and room scans to your photo library for easy sharing and record keeping.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Access your photo library to save estimate reports and room scan results for sharing and record keeping.";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = "arkit camera";
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportsDocumentBrowser = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bismillahtech.ContractorLens;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A0FFFFF8294A0001005F0001 /* Build configuration list for PBXProject "ContractorLens" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1000009294A0003005F0001 /* Debug */,
+				A100000A294A0003005F0001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A100000B294A0003005F0001 /* Build configuration list for PBXNativeTarget "ContractorLens" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A100000C294A0003005F0001 /* Debug */,
+				A100000D294A0003005F0001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A0FFFFF5294A0001005F0001 /* Project object */;
+}
