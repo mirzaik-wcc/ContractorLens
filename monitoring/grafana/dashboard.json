@@ -1,0 +1,206 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "ContractorLens Production Dashboard",
+    "tags": ["contractorlens", "production"],
+    "timezone": "browser",
+    "refresh": "30s",
+    "schemaVersion": 16,
+    "version": 0,
+    "panels": [
+      {
+        "id": 1,
+        "title": "API Response Time",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "avg(contractorlens_api_response_time_seconds)",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "h": 6,
+          "w": 6,
+          "x": 0,
+          "y": 0
+        },
+        "fieldConfig": {
+          "defaults": {
+            "unit": "s",
+            "thresholds": {
+              "steps": [
+                {"color": "green", "value": null},
+                {"color": "yellow", "value": 1},
+                {"color": "red", "value": 2}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 2,
+        "title": "Requests Per Second",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "rate(contractorlens_api_requests_total[5m])",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "h": 6,
+          "w": 6,
+          "x": 6,
+          "y": 0
+        },
+        "fieldConfig": {
+          "defaults": {
+            "unit": "reqps"
+          }
+        }
+      },
+      {
+        "id": 3,
+        "title": "Error Rate",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "rate(contractorlens_api_errors_total[5m]) / rate(contractorlens_api_requests_total[5m]) * 100",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "h": 6,
+          "w": 6,
+          "x": 12,
+          "y": 0
+        },
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent",
+            "thresholds": {
+              "steps": [
+                {"color": "green", "value": null},
+                {"color": "yellow", "value": 1},
+                {"color": "red", "value": 5}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 4,
+        "title": "Active Users",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "contractorlens_active_users",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "h": 6,
+          "w": 6,
+          "x": 18,
+          "y": 0
+        }
+      },
+      {
+        "id": 5,
+        "title": "API Response Time Trend",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, rate(contractorlens_api_response_time_seconds_bucket[5m]))",
+            "refId": "A",
+            "legendFormat": "95th percentile"
+          },
+          {
+            "expr": "histogram_quantile(0.50, rate(contractorlens_api_response_time_seconds_bucket[5m]))",
+            "refId": "B",
+            "legendFormat": "50th percentile"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 6
+        }
+      },
+      {
+        "id": 6,
+        "title": "Database Performance",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "contractorlens_db_query_duration_seconds",
+            "refId": "A",
+            "legendFormat": "Query Duration"
+          },
+          {
+            "expr": "contractorlens_db_connections_active",
+            "refId": "B",
+            "legendFormat": "Active Connections"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 6
+        }
+      },
+      {
+        "id": 7,
+        "title": "Gemini API Performance",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "contractorlens_gemini_api_latency_seconds",
+            "refId": "A",
+            "legendFormat": "Gemini Latency"
+          },
+          {
+            "expr": "rate(contractorlens_gemini_api_errors_total[5m])",
+            "refId": "B",
+            "legendFormat": "Gemini Errors/sec"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 14
+        }
+      },
+      {
+        "id": 8,
+        "title": "Business Metrics",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(contractorlens_estimates_generated_total[5m])",
+            "refId": "A",
+            "legendFormat": "Estimates Generated/sec"
+          },
+          {
+            "expr": "contractorlens_revenue_per_estimate",
+            "refId": "B",
+            "legendFormat": "Revenue per Estimate"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 14
+        }
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    }
+  }
+}

@@ -1,0 +1,164 @@
+# ContractorLens Prometheus Alert Rules
+groups:
+  - name: contractorlens-critical
+    rules:
+      - alert: HighErrorRate
+        expr: rate(contractorlens_api_errors_total[5m]) / rate(contractorlens_api_requests_total[5m]) > 0.05
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High error rate detected"
+          description: "Error rate is {{ $value | humanizePercentage }} for the last 5 minutes"
+          
+      - alert: ServiceDown
+        expr: up{job="contractorlens-backend"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "ContractorLens service is down"
+          description: "Backend service has been down for more than 1 minute"
+          
+      - alert: DatabaseDown
+        expr: up{job="postgres-exporter"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Database is unreachable"
+          description: "PostgreSQL database has been unreachable for more than 1 minute"
+          
+      - alert: HighResponseTime
+        expr: histogram_quantile(0.95, rate(contractorlens_api_response_time_seconds_bucket[5m])) > 5
+        for: 3m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High API response time"
+          description: "95th percentile response time is {{ $value }}s for the last 5 minutes"
+
+  - name: contractorlens-warning
+    rules:
+      - alert: ModerateErrorRate
+        expr: rate(contractorlens_api_errors_total[5m]) / rate(contractorlens_api_requests_total[5m]) > 0.01
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Moderate error rate detected"
+          description: "Error rate is {{ $value | humanizePercentage }} for the last 5 minutes"
+          
+      - alert: HighMemoryUsage
+        expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes > 0.85
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High memory usage"
+          description: "Memory usage is {{ $value | humanizePercentage }} on {{ $labels.instance }}"
+          
+      - alert: HighCPUUsage
+        expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU usage"
+          description: "CPU usage is {{ $value | humanizePercentage }} on {{ $labels.instance }}"
+          
+      - alert: DiskSpaceRunningLow
+        expr: (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"}) < 0.15
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Disk space running low"
+          description: "Disk space is {{ $value | humanizePercentage }} full on {{ $labels.instance }}"
+
+  - name: contractorlens-ml-service
+    rules:
+      - alert: GeminiAPIHighLatency
+        expr: contractorlens_gemini_api_latency_seconds > 10
+        for: 3m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Gemini API high latency"
+          description: "Gemini API latency is {{ $value }}s, above 10s threshold"
+          
+      - alert: GeminiAPIErrors
+        expr: rate(contractorlens_gemini_api_errors_total[5m]) > 0.1
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Gemini API errors detected"
+          description: "Gemini API error rate is {{ $value }} errors/sec"
+          
+      - alert: FrameProcessingBacklog
+        expr: contractorlens_frames_processing_queue_size > 100
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Frame processing backlog"
+          description: "Frame processing queue has {{ $value }} items waiting"
+
+  - name: contractorlens-database
+    rules:
+      - alert: DatabaseHighConnections
+        expr: contractorlens_db_connections_active > 15
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High database connections"
+          description: "Database has {{ $value }} active connections (threshold: 15)"
+          
+      - alert: SlowDatabaseQueries
+        expr: contractorlens_db_query_duration_seconds > 1
+        for: 3m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Slow database queries detected"
+          description: "Database query duration is {{ $value }}s (threshold: 1s)"
+          
+      - alert: DatabaseLockWaits
+        expr: rate(contractorlens_db_lock_waits_total[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Database lock contention"
+          description: "Database lock wait rate is {{ $value }}/sec"
+
+  - name: contractorlens-business
+    rules:
+      - alert: LowEstimateGeneration
+        expr: rate(contractorlens_estimates_generated_total[1h]) < 0.1
+        for: 30m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Low estimate generation rate"
+          description: "Estimate generation rate is {{ $value }}/hour (expected: >6/hour)"
+          
+      - alert: NoTrafficAlert
+        expr: rate(contractorlens_api_requests_total[15m]) == 0
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: "No API traffic detected"
+          description: "No API requests received in the last 15 minutes"
+          
+      - alert: ConversionRateDrop
+        expr: rate(contractorlens_conversions_total[1h]) / rate(contractorlens_sessions_total[1h]) < 0.05
+        for: 1h
+        labels:
+          severity: warning
+        annotations:
+          summary: "Conversion rate drop"
+          description: "Conversion rate has dropped to {{ $value | humanizePercentage }} (threshold: 5%)"

@@ -1,0 +1,85 @@
+# ContractorLens Prometheus Configuration
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    project: 'contractorlens'
+    environment: 'production'
+
+rule_files:
+  - "alert_rules.yml"
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093
+
+scrape_configs:
+  # Prometheus self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # ContractorLens Backend API
+  - job_name: 'contractorlens-backend'
+    static_configs:
+      - targets: ['backend:3000']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+    scrape_timeout: 10s
+    
+  # ContractorLens Gemini Service
+  - job_name: 'contractorlens-gemini'
+    static_configs:
+      - targets: ['gemini-service:3001']
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+    
+  # Node Exporter for system metrics
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['node-exporter:9100']
+    scrape_interval: 15s
+    
+  # PostgreSQL metrics
+  - job_name: 'postgres-exporter'
+    static_configs:
+      - targets: ['postgres-exporter:9187']
+    scrape_interval: 30s
+    
+  # Nginx metrics
+  - job_name: 'nginx-exporter'
+    static_configs:
+      - targets: ['nginx-exporter:9113']
+    scrape_interval: 30s
+    
+  # AWS CloudWatch metrics (if using cloudwatch-exporter)
+  - job_name: 'cloudwatch-exporter'
+    static_configs:
+      - targets: ['cloudwatch-exporter:9106']
+    scrape_interval: 60s
+    scrape_timeout: 30s
+    
+  # Application health checks
+  - job_name: 'contractorlens-health'
+    static_configs:
+      - targets: ['backend:3000']
+    metrics_path: '/health'
+    scrape_interval: 30s
+    params:
+      format: ['prometheus']
+      
+  # Load balancer health
+  - job_name: 'load-balancer'
+    static_configs:
+      - targets: ['nginx:80']
+    metrics_path: '/nginx_status'
+    scrape_interval: 15s
+
+# Remote write configuration (for long-term storage)
+# remote_write:
+#   - url: "https://prometheus-us-central1.grafana.net/api/prom/push"
+#     basic_auth:
+#       username: "your_grafana_cloud_username"
+#       password: "your_grafana_cloud_api_key"
