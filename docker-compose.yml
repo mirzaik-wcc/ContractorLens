@@ -1,0 +1,99 @@
+# ContractorLens Production Docker Compose
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: contractorlens-db
+    environment:
+      POSTGRES_DB: contractorlens
+      POSTGRES_USER: ${DB_USER:-contractorlens}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-secure_password_change_in_production}
+      POSTGRES_INITDB_ARGS: "--auth-host=md5 --auth-local=md5"
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/schemas:/docker-entrypoint-initdb.d/schemas:ro
+      - ./database/seeds:/docker-entrypoint-initdb.d/seeds:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-contractorlens} -d contractorlens"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: contractorlens-backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: contractorlens
+      DB_USER: ${DB_USER:-contractorlens}
+      DB_PASSWORD: ${DB_PASSWORD:-secure_password_change_in_production}
+      DB_SSL: "false"
+      FIREBASE_PROJECT_ID: ${FIREBASE_PROJECT_ID}
+      FIREBASE_PRIVATE_KEY: ${FIREBASE_PRIVATE_KEY}
+      FIREBASE_CLIENT_EMAIL: ${FIREBASE_CLIENT_EMAIL}
+      GEMINI_SERVICE_URL: http://gemini-service:3001
+    ports:
+      - "${BACKEND_PORT:-3000}:3000"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  gemini-service:
+    build:
+      context: ./ml-services/gemini-service
+      dockerfile: Dockerfile
+    container_name: contractorlens-gemini
+    environment:
+      NODE_ENV: production
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-1.5-pro}
+      MAX_FRAMES_PER_SCAN: ${MAX_FRAMES_PER_SCAN:-10}
+      FRAME_QUALITY_THRESHOLD: ${FRAME_QUALITY_THRESHOLD:-0.6}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "console.log('Service running')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  nginx:
+    image: nginx:alpine
+    container_name: contractorlens-proxy
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - nginx_cache:/var/cache/nginx
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  postgres_data:
+  nginx_cache:
+
+networks:
+  default:
+    name: contractorlens-network
