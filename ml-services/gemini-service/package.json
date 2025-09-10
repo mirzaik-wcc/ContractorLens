@@ -1,0 +1,45 @@
+{
+  "name": "contractorlens-gemini-service",
+  "version": "1.0.0",
+  "description": "Digital surveyor service using Gemini for material identification and condition assessment",
+  "main": "analyzer.js",
+  "scripts": {
+    "start": "node analyzer.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint .",
+    "dev": "nodemon analyzer.js"
+  },
+  "keywords": [
+    "gemini",
+    "computer-vision",
+    "construction",
+    "material-analysis",
+    "digital-surveyor"
+  ],
+  "dependencies": {
+    "@google/generative-ai": "^0.2.1",
+    "dotenv": "^16.3.1",
+    "joi": "^17.11.0",
+    "sharp": "^0.33.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.2",
+    "eslint": "^8.56.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-org/contractorlens.git"
+  },
+  "author": "ContractorLens Team",
+  "license": "MIT",
+  "environment": {
+    "GEMINI_API_KEY": "Required - Your Google Gemini API key",
+    "GEMINI_MODEL": "Optional - Default: gemini-1.5-pro",
+    "NODE_ENV": "Optional - Default: production"
+  }
+}
