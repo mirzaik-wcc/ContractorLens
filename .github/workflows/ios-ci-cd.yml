@@ -1,0 +1,313 @@
+# ContractorLens iOS CI/CD Pipeline
+name: iOS CI/CD
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'ios-app/**'
+      - '.github/workflows/ios-ci-cd.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'ios-app/**'
+
+env:
+  IOS_APP_PATH: ios-app
+
+jobs:
+  test:
+    name: Test iOS App
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '15.0'
+
+      - name: Cache Swift Package Manager
+        uses: actions/cache@v3
+        with:
+          path: |
+            ${{ env.IOS_APP_PATH }}/.build
+            ~/Library/Caches/org.swift.swiftpm/
+          key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-
+
+      - name: Install dependencies
+        run: |
+          cd ${{ env.IOS_APP_PATH }}
+          xcodebuild -resolvePackageDependencies
+
+      - name: Build for testing
+        run: |
+          cd ${{ env.IOS_APP_PATH }}
+          xcodebuild \
+            -project ContractorLens.xcodeproj \
+            -scheme ContractorLens \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.0' \
+            -derivedDataPath DerivedData \
+            build-for-testing
+
+      - name: Run unit tests
+        run: |
+          cd ${{ env.IOS_APP_PATH }}
+          xcodebuild \
+            -project ContractorLens.xcodeproj \
+            -scheme ContractorLens \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.0' \
+            -derivedDataPath DerivedData \
+            test-without-building
+
+      - name: Run SwiftLint
+        run: |
+          if command -v swiftlint >/dev/null 2>&1; then
+            cd ${{ env.IOS_APP_PATH }}
+            swiftlint --strict
+          else
+            echo "SwiftLint not installed, skipping..."
+          fi
+
+      - name: Archive test results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: ios-test-results
+          path: |
+            ${{ env.IOS_APP_PATH }}/DerivedData/Logs/Test/
+            ${{ env.IOS_APP_PATH }}/fastlane/test_output/
+
+  build-staging:
+    name: Build for Staging
+    runs-on: macos-latest
+    needs: test
+    if: github.ref == 'refs/heads/develop'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '15.0'
+
+      - name: Import certificates and provisioning profiles
+        env:
+          P12_CERTIFICATE: ${{ secrets.IOS_DISTRIBUTION_CERTIFICATE }}
+          P12_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
+          PROVISIONING_PROFILE: ${{ secrets.IOS_PROVISIONING_PROFILE_STAGING }}
+        run: |
+          # Import certificate
+          echo "$P12_CERTIFICATE" | base64 --decode > certificate.p12
+          security create-keychain -p "" build.keychain
+          security import certificate.p12 -k build.keychain -P "$P12_PASSWORD" -T /usr/bin/codesign
+          security list-keychains -s build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "" build.keychain
+          security set-key-partition-list -S apple-tool:,apple: -s -k "" build.keychain
+
+          # Import provisioning profile
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          echo "$PROVISIONING_PROFILE" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/staging.mobileprovision
+
+      - name: Update bundle identifier for staging
+        run: |
+          cd ${{ env.IOS_APP_PATH }}
+          # Update Info.plist for staging environment
+          /usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier com.contractorlens.app.staging" ContractorLens/Info.plist
+          /usr/libexec/PlistBuddy -c "Set :CFBundleDisplayName 'ContractorLens Staging'" ContractorLens/Info.plist
+
+      - name: Build archive
+        run: |
+          cd ${{ env.IOS_APP_PATH }}
+          xcodebuild \
+            -project ContractorLens.xcodeproj \
+            -scheme ContractorLens \
+            -configuration Release \
+            -destination generic/platform=iOS \
+            -archivePath ContractorLens-staging.xcarchive \
+            archive \
+            CODE_SIGN_IDENTITY="iPhone Distribution" \
+            PROVISIONING_PROFILE_SPECIFIER="ContractorLens Staging"
+
+      - name: Export IPA
+        run: |
+          cd ${{ env.IOS_APP_PATH }}
+          cat > ExportOptions.plist << EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+              <key>method</key>
+              <string>ad-hoc</string>
+              <key>teamID</key>
+              <string>${{ secrets.APPLE_TEAM_ID }}</string>
+          </dict>
+          </plist>
+          EOF
+          
+          xcodebuild \
+            -exportArchive \
+            -archivePath ContractorLens-staging.xcarchive \
+            -exportPath . \
+            -exportOptionsPlist ExportOptions.plist
+
+      - name: Upload to TestFlight
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APP_SPECIFIC_PASSWORD: ${{ secrets.APP_SPECIFIC_PASSWORD }}
+        run: |
+          cd ${{ env.IOS_APP_PATH }}
+          xcrun altool \
+            --upload-app \
+            --type ios \
+            --file ContractorLens.ipa \
+            --username "$APPLE_ID" \
+            --password "$APP_SPECIFIC_PASSWORD"
+
+  build-production:
+    name: Build for Production
+    runs-on: macos-latest
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    environment: production
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '15.0'
+
+      - name: Import certificates and provisioning profiles
+        env:
+          P12_CERTIFICATE: ${{ secrets.IOS_DISTRIBUTION_CERTIFICATE }}
+          P12_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
+          PROVISIONING_PROFILE: ${{ secrets.IOS_PROVISIONING_PROFILE_PRODUCTION }}
+        run: |
+          # Import certificate
+          echo "$P12_CERTIFICATE" | base64 --decode > certificate.p12
+          security create-keychain -p "" build.keychain
+          security import certificate.p12 -k build.keychain -P "$P12_PASSWORD" -T /usr/bin/codesign
+          security list-keychains -s build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "" build.keychain
+          security set-key-partition-list -S apple-tool:,apple: -s -k "" build.keychain
+
+          # Import provisioning profile
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          echo "$PROVISIONING_PROFILE" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/production.mobileprovision
+
+      - name: Increment build number
+        run: |
+          cd ${{ env.IOS_APP_PATH }}
+          CURRENT_BUILD=$(/usr/libexec/PlistBuddy -c "Print :CFBundleVersion" ContractorLens/Info.plist)
+          NEW_BUILD=$((CURRENT_BUILD + 1))
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $NEW_BUILD" ContractorLens/Info.plist
+          echo "Build number updated to: $NEW_BUILD"
+
+      - name: Build archive
+        run: |
+          cd ${{ env.IOS_APP_PATH }}
+          xcodebuild \
+            -project ContractorLens.xcodeproj \
+            -scheme ContractorLens \
+            -configuration Release \
+            -destination generic/platform=iOS \
+            -archivePath ContractorLens-production.xcarchive \
+            archive \
+            CODE_SIGN_IDENTITY="iPhone Distribution" \
+            PROVISIONING_PROFILE_SPECIFIER="ContractorLens Production"
+
+      - name: Export IPA for App Store
+        run: |
+          cd ${{ env.IOS_APP_PATH }}
+          cat > ExportOptions.plist << EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+              <key>method</key>
+              <string>app-store</string>
+              <key>teamID</key>
+              <string>${{ secrets.APPLE_TEAM_ID }}</string>
+              <key>uploadBitcode</key>
+              <false/>
+              <key>uploadSymbols</key>
+              <true/>
+          </dict>
+          </plist>
+          EOF
+          
+          xcodebuild \
+            -exportArchive \
+            -archivePath ContractorLens-production.xcarchive \
+            -exportPath . \
+            -exportOptionsPlist ExportOptions.plist
+
+      - name: Upload to App Store Connect
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APP_SPECIFIC_PASSWORD: ${{ secrets.APP_SPECIFIC_PASSWORD }}
+        run: |
+          cd ${{ env.IOS_APP_PATH }}
+          xcrun altool \
+            --upload-app \
+            --type ios \
+            --file ContractorLens.ipa \
+            --username "$APPLE_ID" \
+            --password "$APP_SPECIFIC_PASSWORD"
+
+      - name: Create GitHub release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ github.run_number }}
+          release_name: ContractorLens v${{ github.run_number }}
+          body: |
+            ## ContractorLens iOS App Release v${{ github.run_number }}
+            
+            This release has been automatically built and uploaded to App Store Connect.
+            
+            ### What's Included:
+            - Production iOS app build
+            - Automated testing passed
+            - Code signing and provisioning verified
+            - Uploaded to App Store Connect for review
+            
+            ### Next Steps:
+            1. Monitor App Store Connect for processing status
+            2. Submit for App Store review when ready
+            3. Coordinate marketing and launch activities
+          draft: false
+          prerelease: false
+
+  notify:
+    name: Send Notifications
+    runs-on: ubuntu-latest
+    needs: [build-staging, build-production]
+    if: always()
+
+    steps:
+      - name: Notify team of build status
+        run: |
+          if [ "${{ needs.build-staging.result }}" == "success" ]; then
+            echo "✅ iOS Staging build successful"
+          fi
+          
+          if [ "${{ needs.build-production.result }}" == "success" ]; then
+            echo "✅ iOS Production build uploaded to App Store Connect"
+          fi
+          
+          if [ "${{ needs.build-staging.result }}" == "failure" ] || [ "${{ needs.build-production.result }}" == "failure" ]; then
+            echo "❌ iOS build failed - check logs"
+          fi
