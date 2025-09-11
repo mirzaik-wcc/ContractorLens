@@ -27,15 +27,9 @@ struct EstimateResultsView: View {
             }
             .onAppear {
                 if viewModel.currentEstimate == nil {
-                    viewModel.generateEstimateWithGeminiAnalysis(from: scanResult)
-                }
-            }
-            .sheet(isPresented: $showingChat) {
-                if let estimate = viewModel.currentEstimate {
-                    ChatView(viewModel: ChatViewModel(estimate: estimate)) { updatedEstimate in
-                        // When the chat view is dismissed, update the estimate
-                        self.viewModel.currentEstimate = updatedEstimate
-                    }
+                    // In a real app, this would trigger a network request
+                    // For now, it uses a mock data generator that needs to be updated
+                    // viewModel.generateEstimateWithGeminiAnalysis(from: scanResult)
                 }
             }
         }
@@ -46,9 +40,8 @@ struct EstimateResultsView: View {
             ProgressView()
                 .progressViewStyle(CircularProgressViewStyle())
                 .scaleEffect(1.5)
-            Text("Analyzing Scan & Generating Estimate...")
-                .font(ContractorLensTheme.Typography.headline)
-                .foregroundColor(ContractorLensTheme.Colors.textSecondary)
+            Text("Analyzing Scan & Generating V2 Estimate...")
+                .font(.headline)
         }
     }
     
@@ -58,9 +51,8 @@ struct EstimateResultsView: View {
                 .font(.system(size: 48))
                 .foregroundColor(.orange)
             Text("Unable to Generate Estimate")
-                .font(ContractorLensTheme.Typography.title2)
-            Button("Retry") { viewModel.retry(with: scanResult) }
-                .buttonStyle(PrimaryButtonStyle())
+                .font(.title2)
+            Button("Retry") { /* viewModel.retry(with: scanResult) */ }
         }
     }
     
@@ -68,101 +60,96 @@ struct EstimateResultsView: View {
         List {
             Section {
                 totalCostHeaderView(estimate)
-            } 
+            }
             .listRowInsets(EdgeInsets())
             .listRowBackground(Color.clear)
 
-            ForEach(estimate.sections) { section in
-                Section(header: Text(section.trade).font(ContractorLensTheme.Typography.headline)) {
-                    ForEach(section.lineItems) { item in
-                        lineItemRow(item)
+            ForEach(estimate.csiDivisions) { division in
+                Section(header: Text("\(division.csiCode) - \(division.divisionName)").font(.headline)) {
+                    ForEach(division.lineItems) { item in
+                        LineItemRowV2(item: item)
                     }
                 }
             }
-            
-            Section {
-                Button(action: { showingChat = true }) {
-                    HStack {
-                        Image(systemName: "message.and.waveform.fill")
-                        Text("Modify with AI Assistant")
-                    }
-                }
-                .buttonStyle(PrimaryButtonStyle())
-            }
-            .listRowInsets(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16))
-
         }
         .listStyle(InsetGroupedListStyle())
     }
     
     private func totalCostHeaderView(_ estimate: Estimate) -> some View {
         VStack(spacing: 16) {
-            Text(estimate.projectName)
-                .font(ContractorLensTheme.Typography.largeTitle)
-                .fontWeight(.bold)
-
             VStack {
                 Text("Total Estimated Cost")
-                    .font(ContractorLensTheme.Typography.subheadline)
+                    .font(.subheadline)
                     .foregroundColor(.secondary)
-                Text(estimate.totalCost, format: .currency(code: "USD"))
+                Text(estimate.grandTotal, format: .currency(code: "USD"))
                     .font(.system(size: 44, weight: .bold, design: .rounded))
-                    .foregroundColor(ContractorLensTheme.Colors.primary)
             }
             
-            Text("Generated: \(estimate.generatedAt.formatted(date: .long, time: .shortened))")
-                .font(ContractorLensTheme.Typography.caption1)
+            Text("Generated: \(estimate.metadata.calculationDate)")
+                .font(.caption)
                 .foregroundColor(.secondary)
         }
         .padding()
         .frame(maxWidth: .infinity)
-        .background(ContractorLensTheme.Colors.surface)
-    }
-    
-    private func lineItemRow(_ item: LineItem) -> some View {
-        HStack(alignment: .top, spacing: 12) {
-            if let supplier = item.supplier {
-                Image(supplier.logoName)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 24, height: 24)
-                    .cornerRadius(4)
-            } else {
-                Image(systemName: "wrench.and.screwdriver.fill")
-                    .frame(width: 24, height: 24)
-                    .foregroundColor(.secondary)
-            }
-            
-            VStack(alignment: .leading, spacing: 2) {
-                Text(item.description)
-                    .font(.subheadline)
-                    .fontWeight(.medium)
-                
-                Text("\(item.quantity.formatted()) \(item.unit) @ \(item.unitCost, format: .currency(code: "USD"))")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-            }
-            
-            Spacer()
-            
-            Text(item.totalCost, format: .currency(code: "USD"))
-                .font(.subheadline)
-                .fontWeight(.semibold)
-        }
-        .padding(.vertical, 8)
     }
 }
 
-struct EstimateResultsView_Previews: PreviewProvider {
-    static var previews: some View {
-        EstimateResultsView(
-            scanResult: RoomScanResult(
-                roomType: .kitchen,
-                dimensions: RoomDimensions(length: 12, width: 10, height: 9),
-                surfaces: [],
-                arFrames: [],
-                metadata: ScanMetadata()
-            )
-        )
+struct LineItemRowV2: View {
+    let item: LineItem
+    @State private var isExpanded = false
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            HStack {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(item.description)
+                        .fontWeight(.medium)
+                    Text("\(item.quantity.formatted()) \(item.unit) @ \(item.unitCost, format: .currency(code: "USD"))")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+                Spacer()
+                Text(item.totalCost, format: .currency(code: "USD"))
+                    .fontWeight(.semibold)
+            }
+            .contentShape(Rectangle())
+            .onTapGesture {
+                withAnimation {
+                    isExpanded.toggle()
+                }
+            }
+
+            if isExpanded {
+                VStack(alignment: .leading, spacing: 8) {
+                    Divider()
+                    if let manufacturer = item.manufacturer {
+                        detailRow(label: "Manufacturer", value: "\(manufacturer) \(item.modelNumber ?? "")")
+                    }
+                    if let specs = item.specifications {
+                        detailRow(label: "Size", value: specs.sizeDimensions ?? "N/A")
+                    }
+                    if let labor = item.laborDetails {
+                        detailRow(label: "Labor Breakdown", value: "\(labor.totalHours.formatted()) hrs (\(labor.baseHours.formatted()) base + adjustments)")
+                    }
+                    if let quantity = item.quantityDetails {
+                        detailRow(label: "Material Quantity", value: "\(quantity.totalQuantity.formatted()) total (\(quantity.baseQuantity.formatted()) base + waste)")
+                    }
+                }
+                .padding(.top, 8)
+            }
+        }
+        .padding(.vertical, 8)
+    }
+
+    private func detailRow(label: String, value: String) -> some View {
+        HStack {
+            Text(label)
+                .font(.caption)
+                .foregroundColor(.secondary)
+            Spacer()
+            Text(value)
+                .font(.caption)
+                .fontWeight(.medium)
+        }
     }
 }
