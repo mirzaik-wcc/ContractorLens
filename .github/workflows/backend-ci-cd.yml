@@ -1,6 +1,10 @@
 # ContractorLens Backend CI/CD Pipeline
 name: Backend CI/CD
 
+permissions:
+  security-events: write
+  contents: read
+
 on:
   push:
     branches: [main, develop]
