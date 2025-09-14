@@ -12,7 +12,6 @@
 		1D0D2C752E6E9902006EF06D /* ItemCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0D2C732E6E9902006EF06D /* ItemCategory.swift */; };
 		1D0D2C762E6E9902006EF06D /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0D2C742E6E9902006EF06D /* UserPreferences.swift */; };
 		1D548C4B2E6BA7DC00FBE3BA /* RoomScanResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D548C4A2E6BA7DC00FBE3BA /* RoomScanResult.swift */; };
-		1D548C4C2E6BA7DC00FBE3BA /* EstimateResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D548C492E6BA7DC00FBE3BA /* EstimateResponse.swift */; };
 		A1000001294A0001005F0001 /* ContractorLensApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000294A0001005F0001 /* ContractorLensApp.swift */; };
 		A1000003294A0001005F0001 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000002294A0001005F0001 /* ContentView.swift */; };
 		A1000005294A0003005F0001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1000004294A0003005F0001 /* Assets.xcassets */; };
@@ -40,7 +39,6 @@
 		1D0D2C6D2E6BB943006EF06D /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		1D0D2C732E6E9902006EF06D /* ItemCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCategory.swift; sourceTree = "<group>"; };
 		1D0D2C742E6E9902006EF06D /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
-		1D548C492E6BA7DC00FBE3BA /* EstimateResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EstimateResponse.swift; sourceTree = "<group>"; };
 		1D548C4A2E6BA7DC00FBE3BA /* RoomScanResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomScanResult.swift; sourceTree = "<group>"; };
 		A0FFFFFD294A0001005F0001 /* ContractorLens.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ContractorLens.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1000000294A0001005F0001 /* ContractorLensApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractorLensApp.swift; sourceTree = "<group>"; };
@@ -173,7 +171,6 @@
 			children = (
 				1D0D2C732E6E9902006EF06D /* ItemCategory.swift */,
 				1D0D2C742E6E9902006EF06D /* UserPreferences.swift */,
-				1D548C492E6BA7DC00FBE3BA /* EstimateResponse.swift */,
 				1D548C4A2E6BA7DC00FBE3BA /* RoomScanResult.swift */,
 				A100000F294A0010005F0001 /* Room.swift */,
 				A1000011294A0011005F0001 /* Measurement.swift */,
@@ -276,7 +273,6 @@
 				A100002E294A0020005F0001 /* EstimateResultsView.swift in Sources */,
 				A1000001294A0001005F0001 /* ContractorLensApp.swift in Sources */,
 				1D548C4B2E6BA7DC00FBE3BA /* RoomScanResult.swift in Sources */,
-				1D548C4C2E6BA7DC00FBE3BA /* EstimateResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
