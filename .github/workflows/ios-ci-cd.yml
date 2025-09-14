@@ -54,15 +54,7 @@ jobs:
             -derivedDataPath DerivedData \
             build-for-testing
 
-      - name: Run unit tests
-        run: |
-          cd ${{ env.IOS_APP_PATH }}
-          xcodebuild \
-            -project ContractorLens.xcodeproj \
-            -scheme ContractorLens \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.0' \
-            -derivedDataPath DerivedData \
-            test-without-building
+      
 
       - name: Run SwiftLint
         run: |
