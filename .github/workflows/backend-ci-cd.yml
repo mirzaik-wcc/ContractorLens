@@ -58,6 +58,25 @@ jobs:
         env:
           PGPASSWORD: postgres
         run: |
+          echo "---SCHEMA---"
+          cat database/schemas/schema.sql
+          echo "---MIGRATION---"
+          cat database/migrations/V2__add_professional_estimate_tables.sql
+          echo "---ITEMS---"
+          cat database/seeds/items.sql
+          echo "---ASSEMBLIES---"
+          cat database/seeds/assemblies.sql
+          echo "---ASSEMBLY ITEMS---"
+          cat database/seeds/assembly_items.sql
+          echo "---LOCATION MODIFIERS---"
+          cat database/seeds/location_modifiers.sql
+          echo "---TRADES---"
+          cat database/seeds/trades.sql
+          echo "---LABOR TASKS---"
+          cat database/seeds/labor_tasks.sql
+          echo "---MATERIAL SPECIFICATIONS---"
+          cat database/seeds/material_specifications.sql
+
           # Apply the initial schema
           psql -h localhost -U postgres -d contractorlens_test -f database/schemas/schema.sql --set ON_ERROR_STOP=1
           
