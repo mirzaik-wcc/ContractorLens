@@ -55,21 +55,23 @@ jobs:
           npm ci
 
       - name: Setup test database
+        env:
+          PGPASSWORD: postgres
         run: |
           # Apply the initial schema
-          psql -h localhost -U postgres -d contractorlens_test -f database/schemas/schema.sql
+          psql -h localhost -U postgres -d contractorlens_test -f database/schemas/schema.sql --set ON_ERROR_STOP=1
           
           # Apply the new V2 migration
-          psql -h localhost -U postgres -d contractorlens_test -f database/migrations/V2__add_professional_estimate_tables.sql
+          psql -h localhost -U postgres -d contractorlens_test -f database/migrations/V2__add_professional_estimate_tables.sql --set ON_ERROR_STOP=1
           
           # Seed the database with all necessary data
-          psql -h localhost -U postgres -d contractorlens_test -f database/seeds/items.sql
-          psql -h localhost -U postgres -d contractorlens_test -f database/seeds/assemblies.sql
-          psql -h localhost -U postgres -d contractorlens_test -f database/seeds/assembly_items.sql
-          psql -h localhost -U postgres -d contractorlens_test -f database/seeds/location_modifiers.sql
-          psql -h localhost -U postgres -d contractorlens_test -f database/seeds/trades.sql
-          psql -h localhost -U postgres -d contractorlens_test -f database/seeds/labor_tasks.sql
-          psql -h localhost -U postgres -d contractorlens_test -f database/seeds/material_specifications.sql
+          psql -h localhost -U postgres -d contractorlens_test -f database/seeds/items.sql --set ON_ERROR_STOP=1
+          psql -h localhost -U postgres -d contractorlens_test -f database/seeds/assemblies.sql --set ON_ERROR_STOP=1
+          psql -h localhost -U postgres -d contractorlens_test -f database/seeds/assembly_items.sql --set ON_ERROR_STOP=1
+          psql -h localhost -U postgres -d contractorlens_test -f database/seeds/location_modifiers.sql --set ON_ERROR_STOP=1
+          psql -h localhost -U postgres -d contractorlens_test -f database/seeds/trades.sql --set ON_ERROR_STOP=1
+          psql -h localhost -U postgres -d contractorlens_test -f database/seeds/labor_tasks.sql --set ON_ERROR_STOP=1
+          psql -h localhost -U postgres -d contractorlens_test -f database/seeds/material_specifications.sql --set ON_ERROR_STOP=1
 
       - name: Run linting
         run: |
