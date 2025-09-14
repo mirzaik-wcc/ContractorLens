@@ -20,8 +20,8 @@ class EstimateViewModel: ObservableObject {
         
         // For now, we will simulate this process and use our mock data generator.
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { // Simulate network delay
-            let mockEstimate = MockEstimateGenerator.generate()
-            self.currentEstimate = mockEstimate
+            // let mockEstimate = MockEstimateGenerator.generate()
+            // self.currentEstimate = mockEstimate
             self.isLoading = false
         }
     }

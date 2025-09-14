@@ -82,7 +82,7 @@ class ScanningService: ObservableObject {
     // MARK: - Data Processing Helpers
     
     private func getRoomDimensions(from room: CapturedRoom) -> RoomDimensions {
-        let dims = room.dimensions
+        let dims = room.boundingBox.max - room.boundingBox.min
         return RoomDimensions(length: Double(dims.x), width: Double(dims.y), height: Double(dims.z))
     }
     
