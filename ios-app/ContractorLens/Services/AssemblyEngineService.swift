@@ -5,7 +5,7 @@ class AssemblyEngineService: ObservableObject {
     @Published var assemblies: [Assembly] = []
     @Published var isLoading = false
     @Published var isProcessing = false
-    @Published var lastEstimate: EstimateResponse?
+    @Published var lastEstimate: Estimate?
     @Published var error: ServiceError?
     @Published var errorMessage: String?
     
@@ -37,7 +37,7 @@ class AssemblyEngineService: ObservableObject {
     
     func generateEstimate(from scanResult: RoomScanResult, 
                          userPreferences: UserPreferences,
-                         location: LocationData) -> AnyPublisher<EstimateResponse, ServiceError> {
+                         location: LocationData) -> AnyPublisher<Estimate, ServiceError> {
         
         guard let url = URL(string: "\(baseURL)/estimates") else {
             return Fail(error: ServiceError.invalidData)
@@ -74,7 +74,7 @@ class AssemblyEngineService: ObservableObject {
                 
                 return data
             }
-            .decode(type: EstimateResponse.self, decoder: JSONDecoder())
+            .decode(type: Estimate.self, decoder: JSONDecoder())
             .mapError { error in
                 if error is DecodingError {
                     return ServiceError.decodingError
