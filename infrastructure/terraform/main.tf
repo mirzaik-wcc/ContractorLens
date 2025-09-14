@@ -9,11 +9,11 @@ terraform {
   }
   
   # Backend configuration for state management (uncomment in production)
-  backend "s3" {
-    bucket = "contractorlens-terraform-state"
-    key    = "production/terraform.tfstate"
-    region = "us-west-2"
-  }
+  # backend "s3" {
+  #   bucket = "contractorlens-terraform-state"
+  #   key    = "production/terraform.tfstate"
+  #   region = "us-west-2"
+  # }
 }
 
 # Configure AWS Provider
