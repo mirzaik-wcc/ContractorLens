@@ -269,6 +269,13 @@ jobs:
           schedule_scaling = true
           EOF
 
+      - name: Debug terraform.tfvars
+        run: |
+          cd infrastructure/terraform
+          echo "--- terraform.tfvars ---"
+          grep -v 'db_password\|firebase_project_id\|firebase_private_key\|firebase_client_email\|gemini_api_key\|ecr_repository_url\|certificate_arn' terraform.tfvars
+          echo "------------------------"
+
       - name: Terraform Init
         run: |
           cd infrastructure/terraform
