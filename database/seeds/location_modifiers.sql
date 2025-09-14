@@ -173,7 +173,7 @@ INSERT INTO LocationCostModifiers (metro_name, state_code, zip_code_range, mater
 
 -- HIGH-END EAST COAST MARKETS
 ('Hamptons, NY', 'NY', '11930-11980', 1.50, 1.65, '2024-10-01', NOW(), NOW()),
-('Martha\'s Vineyard, MA', 'MA', '02539-02575', 1.45, 1.60, '2024-10-01', NOW(), NOW()),
+('Martha''s Vineyard, MA', 'MA', '02539-02575', 1.45, 1.60, '2024-10-01', NOW(), NOW()),
 ('Nantucket, MA', 'MA', '02554-02584', 1.50, 1.65, '2024-10-01', NOW(), NOW()),
 
 -- FLORIDA LUXURY MARKETS

@@ -27,7 +27,7 @@ jobs:
       - name: Setup Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: '15.0'
+          xcode-version: '16.2'
 
       - name: Cache Swift Package Manager
         uses: actions/cache@v4
@@ -87,7 +87,7 @@ jobs:
       - name: Setup Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: '15.0'
+          xcode-version: '16.2'
 
       - name: Import certificates and provisioning profiles
         env:
@@ -177,7 +177,7 @@ jobs:
       - name: Setup Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: '15.0'
+          xcode-version: '16.2'
 
       - name: Import certificates and provisioning profiles
         env:
