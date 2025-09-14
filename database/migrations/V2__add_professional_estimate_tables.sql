@@ -5,7 +5,7 @@
 -- Phase 1, Step 1.2: Implement New Granularity Tables
 
 -- Trades table with CSI divisions for professional organization
-CREATE TABLE Trades (
+CREATE TABLE contractorlens.Trades (
     trade_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     csi_division VARCHAR(10) NOT NULL,
     division_name VARCHAR(100) NOT NULL,
@@ -16,9 +16,9 @@ CREATE TABLE Trades (
 );
 
 -- MaterialSpecifications for detailed product data
-CREATE TABLE MaterialSpecifications (
+CREATE TABLE contractorlens.MaterialSpecifications (
     spec_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    item_id UUID REFERENCES Items(item_id),
+    item_id UUID REFERENCES contractorlens.Items(item_id),
     manufacturer VARCHAR(100),
     model_number VARCHAR(50),
     brand_name VARCHAR(100),
@@ -31,9 +31,9 @@ CREATE TABLE MaterialSpecifications (
 );
 
 -- LaborTasks for detailed labor production rates and requirements
-CREATE TABLE LaborTasks (
+CREATE TABLE contractorlens.LaborTasks (
     task_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    item_id UUID REFERENCES Items(item_id),
+    item_id UUID REFERENCES contractorlens.Items(item_id),
     task_name VARCHAR(200),
     task_description TEXT,
     base_production_rate DECIMAL(10,6),
@@ -45,9 +45,9 @@ CREATE TABLE LaborTasks (
 );
 
 -- WasteFactors for material-specific waste percentages
-CREATE TABLE WasteFactors (
+CREATE TABLE contractorlens.WasteFactors (
     waste_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    item_id UUID REFERENCES Items(item_id),
+    item_id UUID REFERENCES contractorlens.Items(item_id),
     material_type VARCHAR(50),
     base_waste_percentage DECIMAL(5,2),
     cut_waste_percentage DECIMAL(5,2),
@@ -56,20 +56,20 @@ CREATE TABLE WasteFactors (
 );
 
 -- WorkSequences for future trade dependency logic
-CREATE TABLE WorkSequences (
+CREATE TABLE contractorlens.WorkSequences (
     sequence_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    predecessor_trade_id UUID REFERENCES Trades(trade_id),
-    successor_trade_id UUID REFERENCES Trades(trade_id),
+    predecessor_trade_id UUID REFERENCES contractorlens.Trades(trade_id),
+    successor_trade_id UUID REFERENCES contractorlens.Trades(trade_id),
     dependency_type VARCHAR(20) CHECK (dependency_type IN ('must_complete', 'can_overlap')),
     lag_days INTEGER DEFAULT 0
 );
 
 -- Phase 1, Step 1.3: Alter the Existing Items Table
 
-ALTER TABLE Items ADD COLUMN trade_id UUID REFERENCES Trades(trade_id);
-ALTER TABLE Items ADD COLUMN manufacturer VARCHAR(100);
-ALTER TABLE Items ADD COLUMN model_number VARCHAR(50);
-ALTER TABLE Items ADD COLUMN detailed_description TEXT;
-ALTER TABLE Items ADD COLUMN installation_notes TEXT;
+ALTER TABLE contractorlens.Items ADD COLUMN trade_id UUID REFERENCES contractorlens.Trades(trade_id);
+ALTER TABLE contractorlens.Items ADD COLUMN manufacturer VARCHAR(100);
+ALTER TABLE contractorlens.Items ADD COLUMN model_number VARCHAR(50);
+ALTER TABLE contractorlens.Items ADD COLUMN detailed_description TEXT;
+ALTER TABLE contractorlens.Items ADD COLUMN installation_notes TEXT;
 
 -- End of Migration V2

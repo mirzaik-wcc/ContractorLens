@@ -59,6 +59,18 @@ jobs:
           cd infrastructure/terraform
           terraform init -backend=false
 
+      - name: Create dummy terraform.tfvars for validation
+        run: |
+          cd infrastructure/terraform
+          cat > terraform.tfvars << EOF
+          db_password = "dummy"
+          ecr_repository_url = "dummy"
+          firebase_project_id = "dummy"
+          firebase_private_key = "dummy"
+          firebase_client_email = "dummy"
+          gemini_api_key = "dummy"
+          EOF
+
       - name: Terraform Validate
         run: |
           cd infrastructure/terraform
@@ -105,27 +117,31 @@ jobs:
           aws_region = "us-west-2"
           environment = "staging"
           project_name = "contractorlens-staging"
-          
-          # Database
+          vpc_cidr = "10.0.0.0/16"
+          db_instance_class = "db.t3.small"
+          db_allocated_storage = 20
+          db_max_allocated_storage = 100
+          db_name = "contractorlens_staging"
+          db_username = "contractorlens"
           db_password = "${{ secrets.DB_PASSWORD_STAGING }}"
-          
-          # Container registry
+          ecs_cpu = 512
+          ecs_memory = 1024
+          ecs_desired_count = 1
+          ecs_min_capacity = 1
+          ecs_max_capacity = 2
           ecr_repository_url = "${{ secrets.ECR_REPOSITORY_URL_STAGING }}"
-          
-          # Firebase
           firebase_project_id = "${{ secrets.FIREBASE_PROJECT_ID }}"
           firebase_private_key = "${{ secrets.FIREBASE_PRIVATE_KEY }}"
           firebase_client_email = "${{ secrets.FIREBASE_CLIENT_EMAIL }}"
-          
-          # Gemini
           gemini_api_key = "${{ secrets.GEMINI_API_KEY }}"
-          
-          # Staging specific settings
-          ecs_desired_count = 1
-          ecs_min_capacity = 1
-          ecs_max_capacity = 3
-          db_instance_class = "db.t3.small"
           enable_deletion_protection = false
+          enable_container_insights = true
+          log_retention_days = 14
+          backup_retention_period = 7
+          backup_window = "04:00-05:00"
+          maintenance_window = "Mon:05:00-Mon:06:00"
+          enable_spot_instances = true
+          schedule_scaling = false
           EOF
 
       - name: Terraform Init
@@ -224,31 +240,33 @@ jobs:
           aws_region = "us-west-2"
           environment = "production"
           project_name = "contractorlens"
-          
-          # Database
+          vpc_cidr = "10.0.0.0/16"
+          db_instance_class = "db.t3.medium"
+          db_allocated_storage = 100
+          db_max_allocated_storage = 1000
+          db_name = "contractorlens"
+          db_username = "contractorlens"
           db_password = "${{ secrets.DB_PASSWORD_PRODUCTION }}"
-          
-          # Container registry
-          ecr_repository_url = "${{ secrets.ECR_REPOSITORY_URL_PRODUCTION }}"
-          
-          # Firebase
-          firebase_project_id = "${{ secrets.FIREBASE_PROJECT_ID }}"
-          firebase_private_key = "${{ secrets.FIREBASE_PRIVATE_KEY }}"
-          firebase_client_email = "${{ secrets.FIREBASE_CLIENT_EMAIL }}"
-          
-          # Gemini
-          gemini_api_key = "${{ secrets.GEMINI_API_KEY }}"
-          
-          # Domain and SSL
-          domain_name = "contractorlens.com"
-          certificate_arn = "${{ secrets.SSL_CERTIFICATE_ARN }}"
-          
-          # Production settings
+          ecs_cpu = 1024
+          ecs_memory = 2048
           ecs_desired_count = 2
           ecs_min_capacity = 2
           ecs_max_capacity = 10
-          db_instance_class = "db.t3.medium"
+          ecr_repository_url = "${{ secrets.ECR_REPOSITORY_URL_PRODUCTION }}"
+          firebase_project_id = "${{ secrets.FIREBASE_PROJECT_ID }}"
+          firebase_private_key = "${{ secrets.FIREBASE_PRIVATE_KEY }}"
+          firebase_client_email = "${{ secrets.FIREBASE_CLIENT_EMAIL }}"
+          gemini_api_key = "${{ secrets.GEMINI_API_KEY }}"
           enable_deletion_protection = true
+          domain_name = "contractorlens.com"
+          certificate_arn = "${{ secrets.SSL_CERTIFICATE_ARN }}"
+          enable_container_insights = true
+          log_retention_days = 30
+          backup_retention_period = 30
+          backup_window = "03:00-04:00"
+          maintenance_window = "Sun:04:00-Sun:05:00"
+          enable_spot_instances = false
+          schedule_scaling = true
           EOF
 
       - name: Terraform Init

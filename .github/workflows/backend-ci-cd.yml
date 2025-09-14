@@ -2,8 +2,9 @@
 name: Backend CI/CD
 
 permissions:
-  security-events: write
+  actions: read
   contents: read
+  security-events: write
 
 on:
   push:
@@ -59,9 +60,8 @@ jobs:
           npm ci
 
       - name: Setup test database
-        env:
-          PGPASSWORD: postgres
         run: |
+          export PGPASSWORD=postgres
           echo "---SCHEMA---"
           cat database/schemas/schema.sql
           echo "---MIGRATION---"
